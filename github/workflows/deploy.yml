@@ -2,14 +2,15 @@ name: Deploy All Workers
 on:
   push:
     branches:
-      - main  # 你的主分支是main，保持不变
+      - main
+
 jobs:
   deploy-mitv:
     runs-on: ubuntu-latest
     name: Deploy mitv
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy mitv.js
+      - name: Deploy mitv
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -21,7 +22,7 @@ jobs:
     name: Deploy chaozhou
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy chaozhou.js
+      - name: Deploy chaozhou
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -33,7 +34,7 @@ jobs:
     name: Deploy zubo
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy zubo.js
+      - name: Deploy zubo
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -45,7 +46,7 @@ jobs:
     name: Deploy gdty
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy gdty.js
+      - name: Deploy gdty
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -57,7 +58,7 @@ jobs:
     name: Deploy worker
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy worker.js
+      - name: Deploy worker
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
