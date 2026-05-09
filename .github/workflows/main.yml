@@ -1,0 +1,37 @@
+name: Upstream Sync
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: "0 * * * *" # 每小时的第 0 分钟执行一次检查
+  workflow_dispatch: # 允许你手动点击按钮触发
+
+jobs:
+  sync_latest_from_upstream:
+    name: Sync latest commits from upstream repo
+    runs-on: ubuntu-latest
+    if: ${{ github.event.repository.fork }}
+
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v3
+
+      - name: Sync upstream changes
+        id: sync
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+        with:
+          upstream_sync_repo: 5d5d5f5f5f/abc
+          upstream_sync_branch: main
+          target_sync_branch: main
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+          test_mode: false # 设为 false 以确保执行实际同步
+
+      - name: Check for updates
+        run: |
+          if [ "${{ steps.sync.outputs.has_new_commits }}" = "true" ]; then
+            echo "发现上游有新更新，同步已完成。"
+          else
+            echo "上游没有新更新，无需同步。"
+          fi
